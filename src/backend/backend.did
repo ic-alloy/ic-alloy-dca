@@ -1,0 +1,10 @@
+type Result = variant { Ok : text; Err : text };
+
+// Base unit of ETH, i.e., 1 ETH = 10^18 Wei.
+type Wei = nat;
+
+service : {
+  get_address : (owner: opt principal) -> (Result);
+  get_balance : (owner: opt principal) -> (Result);
+  send_eth : (to: text, amount: Wei) -> (Result);
+}

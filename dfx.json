@@ -1,0 +1,57 @@
+{
+  "canisters": {
+    "internet_identity": {
+      "type": "custom",
+      "candid": "https://github.com/dfinity/internet-identity/releases/download/release-2024-10-01/internet_identity.did",
+      "declarations": {
+        "output": "src/internet_identity/declarations"
+      },
+      "remote": {
+        "id": {
+          "ic": "rdmx6-jaaaa-aaaaa-aaadq-cai"
+        }
+      },
+      "frontend": {},
+      "specified_id": "rdmx6-jaaaa-aaaaa-aaadq-cai",
+      "wasm": "https://github.com/dfinity/internet-identity/releases/download/release-2024-10-01/internet_identity_dev.wasm.gz"
+    },
+    "evm_rpc": {
+      "candid": "https://github.com/internet-computer-protocol/evm-rpc-canister/releases/latest/download/evm_rpc.did",
+      "declarations": {
+        "output": "src/evm_rpc/declarations"
+      },
+      "init_arg": "(record { nodesInSubnet = 28 })",
+      "remote": {
+        "candid": "packages/evm_rpc/declarations/evm_rpc.did",
+        "id": {
+          "ic": "7hfb6-caaaa-aaaar-qadga-cai"
+        }
+      },
+      "specified_id": "7hfb6-caaaa-aaaar-qadga-cai",
+      "type": "custom",
+      "wasm": "https://github.com/internet-computer-protocol/evm-rpc-canister/releases/latest/download/evm_rpc.wasm.gz"
+    },
+    "backend": {
+      "candid": "src/backend/backend.did",
+      "declarations": {
+        "output": "src/backend/declarations"
+      },
+      "package": "backend",
+      "type": "rust"
+    },
+    "frontend": {
+      "declarations": {
+        "output": "src/frontend/declarations"
+      },
+      "source": [
+        "dist"
+      ],
+      "type": "assets",
+      "build": [
+        "pnpm run build"
+      ]
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}

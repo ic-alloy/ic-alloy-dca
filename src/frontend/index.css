@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  :root {
+    /* Name: custom color palette
+       Author: Ilias Ism
+       URL: https://gradient.page */
+
+    /* CSS: .bg-gradient { background: var(--gradient) } */
+    --gradient: #00FF7F;
+
+    --background: 159 65% 4%;
+    --foreground: 159 10% 97.5%;
+
+    --muted: 159 37% 15%;
+    --muted-foreground: 159 10% 55%;
+
+    --popover: 159 45% 6.5%;
+    --popover-foreground: 159 10% 97.5%;
+
+    --card: 159 45% 6.5%;
+    --card-foreground: 159 10% 97.5%;
+
+    --border: 159 37% 15%;
+    --input: 159 37% 15%;
+
+    --primary: 159 100% 50%;
+    --primary-foreground: 159 10% 5%;
+
+    --secondary: 159 37% 15%;
+    --secondary-foreground: 159 10% 97.5%;
+
+    --accent: 159 37% 15%;
+    --accent-foreground: 159 10% 97.5%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 159 10% 97.5%;
+
+    --ring: 159 100% 50%;
+
+    --radius: 0.5rem;
+  }
+}
+
+* {
+    border-color: hsl(var(--border))
+}
+
+main {
+  @apply bg-background h-screen pt-20 flex flex-col items-center justify-center;
+}
+
+section {
+  @apply w-[400px] p-5 border rounded-lg bg-card text-card-foreground shadow-sm;
+}
+
+h3 {
+  @apply text-2xl font-semibold leading-none tracking-tight
+}
+
+.links {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.links img {
+    opacity: 0.5;
+}
+
+.links img:hover {
+    opacity: 1;
+}
+

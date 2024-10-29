@@ -1,0 +1,23 @@
+[package]
+name = "backend"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+candid = "0.10"
+ic-cdk = "0.16"
+getrandom = { version = "0.2.15", features = ["custom"] }
+rand_chacha = { version = "0.3.1" }
+ic-cdk-timers = "0.10.0"
+
+# Use `ic-alloy` hosted on GitHub. `ic-alloy` is not deployed to crates.io yet
+alloy = { git = "https://github.com/kristoferlund/ic-alloy.git", default-features = false, branch = "icp", features = [
+  "icp",
+  "sol-types",
+  "json",
+  "contract",
+] }
+serde_bytes = "0.11.15"
