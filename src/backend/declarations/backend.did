@@ -1,10 +1,13 @@
+type CanisterSettingsInput = record {
+  asset : text;
+  interval : nat64;
+  owner : principal;
+  amount : nat64;
+};
 type Result = variant { Ok : text; Err : text };
-
-// Base unit of ETH, i.e., 1 ETH = 10^18 Wei.
-type Wei = nat;
-
-service : {
-  get_address : (owner: opt principal) -> (Result);
-  get_balance : (owner: opt principal) -> (Result);
-  send_eth : (to: text, amount: Wei) -> (Result);
+service : (CanisterSettingsInput) -> {
+  get_address : (opt principal) -> (Result);
+  get_balance : (opt principal) -> (Result);
+  send_eth : (text, nat) -> (Result);
+  update_settings : (CanisterSettingsInput) -> ();
 }

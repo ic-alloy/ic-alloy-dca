@@ -1,9 +1,51 @@
+mod auth;
+mod canisters;
 mod service;
+mod usdc;
 
-use alloy::transports::icp::{EthSepoliaService, RpcApi, RpcService};
-use candid::{Nat, Principal};
+use alloy::{
+    primitives::{address, Address, U256},
+    signers::icp::IcpSigner,
+    sol,
+    transports::icp::{RpcApi, RpcService},
+};
+use candid::{CandidType, Nat, Principal};
 use ic_cdk::export_candid;
+use ic_cdk_timers::TimerId;
+use serde::{Deserialize, Serialize};
 use serde_bytes::ByteBuf;
+use std::cell::RefCell;
+
+pub const USDC_ADDRESS: Address = address!("6f79350e44a35225870e5fddf55b17574fd77d1a");
+pub const WETH_ADDRESS: Address = address!("fff9976782d46cc05630d1f6ebab18b2324d6b14");
+pub const SWAP_ROUTER_2: Address = address!("3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E");
+pub const MAX_ALLOWANCE: U256 = U256::MAX;
+
+sol!(
+    #[sol(rpc)]
+    "sol/IERC20.sol"
+);
+
+#[derive(Serialize, Deserialize, CandidType, Default)]
+pub struct CanisterSettingsInput {
+    owner: String,
+    asset: String,
+    interval: u64,
+    amount: u64,
+}
+
+#[derive(Default)]
+pub struct State {
+    settings: CanisterSettingsInput,
+    timer_id: Option<TimerId>,
+    signer: Option<IcpSigner>,
+    canister_eth_address: Option<Address>,
+}
+
+thread_local! {
+    static STATE: RefCell<State> = RefCell::new(State::default());
+    // static SIGNER: RefCell<Option<IcpSigner>> = const { RefCell::new(None) };
+}
 
 // ICP uses different ECDSA key names for mainnet and local
 // development.
@@ -19,19 +61,12 @@ fn get_ecdsa_key_name() -> String {
 
 // Modify this function to determine which EVM network canister connects to
 fn get_rpc_service() -> RpcService {
-    // RpcService::EthSepolia(EthSepoliaService::Alchemy)
-    // RpcService::EthMainnet(EthMainnetService::Alchemy)
-    // RpcService::BaseMainnet(L2MainnetService::Alchemy)
-    // RpcService::OptimismMainnet(L2MainnetService::Alchemy)
-    // RpcService::ArbitrumOne(L2MainnetService::Alchemy)
     RpcService::Custom(RpcApi {
         url: "https://ic-alloy-evm-rpc-proxy.kristofer-977.workers.dev/eth-sepolia".to_string(),
         headers: None,
     })
 }
 
-// The derivation path determines the Ethereum address generated
-// by the signer.
 fn create_derivation_path(principal: &Principal) -> Vec<Vec<u8>> {
     const SCHEMA_V1: u8 = 1;
     [
@@ -50,6 +85,20 @@ fn auth_guard() -> Result<(), String> {
         }
         _ => Ok(()),
     }
+}
+
+async fn create_signer() -> IcpSigner {
+    let ecdsa_key_name = get_ecdsa_key_name();
+    IcpSigner::new(vec![], &ecdsa_key_name, None).await.unwrap()
+}
+
+fn get_signer() -> (IcpSigner, Address) {
+    STATE.with_borrow(|state| {
+        (
+            state.signer.as_ref().unwrap().clone(),
+            state.canister_eth_address.unwrap(),
+        )
+    })
 }
 
 export_candid!();
