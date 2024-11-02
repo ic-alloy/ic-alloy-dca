@@ -1,14 +1,18 @@
 type CanisterSettingsInput = record {
-  asset : text;
+  fee : nat64;
   interval : nat64;
   owner : text;
-  amount : nat64;
+  swap_token : text;
+  base_token : text;
+  amount_in : nat64;
+  slippage : nat64;
 };
+type LogItem = record { ok : opt text; err : opt text; event : LogItemEvent };
+type LogItemEvent = variant { Approve; Swap };
 type Result = variant { Ok : text; Err : text };
 service : (CanisterSettingsInput) -> {
-  get_address : (opt principal) -> (Result);
-  get_balance : (opt principal) -> (Result);
-  send_eth : (text, nat) -> (Result);
+  get_address : () -> (Result);
+  get_log : () -> (vec LogItem) query;
   start : () -> (Result);
   stop : () -> (Result);
 }

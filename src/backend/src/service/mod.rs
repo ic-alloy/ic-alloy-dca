@@ -1,6 +1,5 @@
 mod get_address;
-mod get_balance;
+mod get_log;
 pub mod init_upgrade;
-mod send_eth;
 mod start;
 mod stop;

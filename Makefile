@@ -1,5 +1,7 @@
 #!/bin/bash
 
+.SILENT:
+
 # dfx deploy internet_identity
 #
 # dfx deploy evm_rpc
@@ -20,9 +22,12 @@ deploy-backend: build-backend
 	dfx deploy backend --argument "( \
 	  	record { \
 					owner = \"$$(dfx identity get-principal)\"; \
-	        asset = \"BTC\"; \
-					interval = 10; \
-					amount = 100; \
+					base_token = \"0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238\"; \
+					swap_token = \"0xfff9976782d46cc05630d1f6ebab18b2324d6b14\"; \
+	        fee = 3000; \
+					amount_in = 100000; \
+					slippage = 5; \
+					interval = 3600; \
 		} \
 	)"
 

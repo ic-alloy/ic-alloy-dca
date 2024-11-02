@@ -1,14 +1,15 @@
 use crate::{
-    get_rpc_service, get_signer, IV3SwapRouter, USDC_ADDRESS, V3_SWAP_ROUTER, WETH_ADDRESS,
+    evm::utils::{get_rpc_service, get_signer},
+    IV3SwapRouter, STATE, V3_SWAP_ROUTER,
 };
 use alloy::{
     network::EthereumWallet,
-    primitives::{aliases::U24, U160, U256},
+    primitives::{U160, U256},
     providers::ProviderBuilder,
     transports::icp::IcpConfig,
 };
 
-pub async fn swap() -> Result<(), String> {
+pub async fn swap() -> Result<String, String> {
     let (signer, address) = get_signer();
     let wallet = EthereumWallet::from(signer);
     let rpc_service = get_rpc_service();
@@ -18,12 +19,21 @@ pub async fn swap() -> Result<(), String> {
         .wallet(wallet)
         .on_icp(config);
 
+    let (token_in, token_out, fee, amount_in) = STATE.with_borrow(|state| {
+        (
+            state.base_token,
+            state.swap_token,
+            state.fee,
+            state.amount_in,
+        )
+    });
+
     let args = IV3SwapRouter::ExactInputSingleParams {
-        tokenIn: USDC_ADDRESS,
-        tokenOut: WETH_ADDRESS,
-        fee: U24::from(3000),
+        tokenIn: token_in,
+        tokenOut: token_out,
+        fee,
         recipient: address,
-        amountIn: U256::from(100_000),
+        amountIn: amount_in,
         amountOutMinimum: U256::from(0),
         sqrtPriceLimitX96: U160::from(0),
     };
@@ -32,8 +42,8 @@ pub async fn swap() -> Result<(), String> {
 
     match v3_swap_router.exactInputSingle(args).send().await {
         Ok(res) => {
-            ic_cdk::println!("{:?}", res);
-            Ok(())
+            ic_cdk::println!("Swap OK, result: {:?}", res);
+            Ok(format!("{}", res.tx_hash()))
         }
         Err(e) => Err(e.to_string()),
     }

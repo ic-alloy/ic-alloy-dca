@@ -1,13 +1,49 @@
 use std::time::Duration;
 
-use alloy::signers::Signer;
+use alloy::{
+    hex::FromHex,
+    primitives::{aliases::U24, Address, U256},
+    signers::Signer,
+};
+use candid::CandidType;
+use serde::{Deserialize, Serialize};
 
-use crate::{create_signer, CanisterSettingsInput, State, STATE};
+use crate::{evm::utils::create_signer, State, STATE};
+
+#[derive(Serialize, Deserialize, CandidType)]
+pub struct CanisterSettingsInput {
+    pub owner: String,
+    pub base_token: String,
+    pub swap_token: String,
+    pub fee: u64,
+    pub amount_in: u64,
+    pub slippage: u64,
+    pub interval: u64,
+}
 
 fn save_settings(settings: CanisterSettingsInput) {
+    let CanisterSettingsInput {
+        owner,
+        base_token,
+        swap_token,
+        fee,
+        amount_in,
+        slippage,
+        interval,
+    } = settings;
+
+    let base_token = Address::from_hex(base_token).unwrap();
+    let swap_token = Address::from_hex(swap_token).unwrap();
+
     STATE.with_borrow_mut(|state| {
         *state = State {
-            settings,
+            owner,
+            base_token,
+            swap_token,
+            fee: U24::from(fee),
+            amount_in: U256::from(amount_in),
+            slippage: U256::from(slippage),
+            interval,
             ..State::default()
         };
     });
