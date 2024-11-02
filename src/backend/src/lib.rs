@@ -1,5 +1,6 @@
 mod auth;
 mod canisters;
+mod evm;
 mod service;
 mod usdc;
 
@@ -16,10 +17,15 @@ use serde::{Deserialize, Serialize};
 use serde_bytes::ByteBuf;
 use std::cell::RefCell;
 
-pub const USDC_ADDRESS: Address = address!("6f79350e44a35225870e5fddf55b17574fd77d1a");
+pub const USDC_ADDRESS: Address = address!("1c7D4B196Cb0C7B01d743Fbc6116a902379C7238");
 pub const WETH_ADDRESS: Address = address!("fff9976782d46cc05630d1f6ebab18b2324d6b14");
-pub const SWAP_ROUTER_2: Address = address!("3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E");
+pub const V3_SWAP_ROUTER: Address = address!("3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E");
 pub const MAX_ALLOWANCE: U256 = U256::MAX;
+
+sol!(
+    #[sol(rpc)]
+    "sol/IV3SwapRouter.sol"
+);
 
 sol!(
     #[sol(rpc)]

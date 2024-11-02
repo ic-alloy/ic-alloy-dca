@@ -1,12 +1,7 @@
-use alloy::{
-    network::EthereumWallet,
-    providers::{Provider, ProviderBuilder},
-    transports::icp::IcpConfig,
-};
+use crate::{get_rpc_service, get_signer, IERC20, MAX_ALLOWANCE, USDC_ADDRESS, V3_SWAP_ROUTER};
+use alloy::{network::EthereumWallet, providers::ProviderBuilder, transports::icp::IcpConfig};
 
-use crate::{get_rpc_service, get_signer, IERC20, MAX_ALLOWANCE, SWAP_ROUTER_2, USDC_ADDRESS};
-
-pub async fn approve() -> Result<String, String> {
+pub async fn approve() -> Result<(), String> {
     let (signer, address) = get_signer();
     let wallet = EthereumWallet::from(signer);
     let rpc_service = get_rpc_service();
@@ -16,22 +11,17 @@ pub async fn approve() -> Result<String, String> {
         .wallet(wallet)
         .on_icp(config);
 
-    let contract = IERC20::new(USDC_ADDRESS, provider.clone());
+    let usdc = IERC20::new(USDC_ADDRESS, provider.clone());
 
-    match contract
-        .approve(SWAP_ROUTER_2, MAX_ALLOWANCE)
+    match usdc
+        .approve(V3_SWAP_ROUTER, MAX_ALLOWANCE)
         .from(address)
         .send()
         .await
     {
-        Ok(builder) => {
-            let node_hash = *builder.tx_hash();
-            let tx_response = provider.get_transaction_by_hash(node_hash).await.unwrap();
-
-            match tx_response {
-                Some(tx) => Ok(format!("{:?}", tx)),
-                None => Err("Could not get transaction.".to_string()),
-            }
+        Ok(res) => {
+            ic_cdk::println!("{:?}", res);
+            Ok(())
         }
         Err(e) => Err(format!("{:?}", e)),
     }
