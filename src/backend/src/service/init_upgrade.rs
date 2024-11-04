@@ -5,41 +5,32 @@ use alloy::{
     primitives::{aliases::U24, Address, U256},
     signers::Signer,
 };
-use candid::CandidType;
-use serde::{Deserialize, Serialize};
 
-use crate::{evm::utils::create_signer, State, STATE};
+use crate::{evm::utils::create_signer, CanisterSettingsDto, State, STATE};
 
-#[derive(Serialize, Deserialize, CandidType)]
-pub struct CanisterSettingsInput {
-    pub owner: String,
-    pub base_token: String,
-    pub swap_token: String,
-    pub fee: u64,
-    pub amount_in: u64,
-    pub slippage: u64,
-    pub interval: u64,
-}
-
-fn save_settings(settings: CanisterSettingsInput) {
-    let CanisterSettingsInput {
+fn save_settings(settings: CanisterSettingsDto) {
+    let CanisterSettingsDto {
         owner,
-        base_token,
-        swap_token,
+        base_token_address,
+        base_token_name,
+        swap_token_address,
+        swap_token_name,
         fee,
         amount_in,
         slippage,
         interval,
     } = settings;
 
-    let base_token = Address::from_hex(base_token).unwrap();
-    let swap_token = Address::from_hex(swap_token).unwrap();
+    let base_token_address = Address::from_hex(base_token_address).unwrap();
+    let swap_token_address = Address::from_hex(swap_token_address).unwrap();
 
     STATE.with_borrow_mut(|state| {
         *state = State {
             owner,
-            base_token,
-            swap_token,
+            base_token_address,
+            base_token_name,
+            swap_token_address,
+            swap_token_name,
             fee: U24::from(fee),
             amount_in: U256::from(amount_in),
             slippage: U256::from(slippage),
@@ -66,13 +57,13 @@ fn init_signer() {
 }
 
 #[ic_cdk::init]
-fn init(settings: CanisterSettingsInput) {
+fn init(settings: CanisterSettingsDto) {
     save_settings(settings);
     init_signer();
 }
 
 #[ic_cdk::post_upgrade]
-fn post_upgrade(settings: CanisterSettingsInput) {
+fn post_upgrade(settings: CanisterSettingsDto) {
     save_settings(settings);
     init_signer();
 }

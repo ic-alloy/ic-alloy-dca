@@ -21,8 +21,8 @@ pub async fn swap() -> Result<String, String> {
 
     let (token_in, token_out, fee, amount_in) = STATE.with_borrow(|state| {
         (
-            state.base_token,
-            state.swap_token,
+            state.base_token_address,
+            state.swap_token_address,
             state.fee,
             state.amount_in,
         )

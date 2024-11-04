@@ -15,21 +15,6 @@
       "specified_id": "uf6dk-hyaaa-aaaaq-qaaaq-cai",
       "wasm": "https://github.com/dfinity/exchange-rate-canister/releases/download/2024.07.12/xrc.wasm.gz"
     },
-    "internet_identity": {
-      "type": "custom",
-      "candid": "https://github.com/dfinity/internet-identity/releases/download/release-2024-10-01/internet_identity.did",
-      "declarations": {
-        "output": "src/internet_identity/declarations"
-      },
-      "remote": {
-        "id": {
-          "ic": "rdmx6-jaaaa-aaaaa-aaadq-cai"
-        }
-      },
-      "frontend": {},
-      "specified_id": "rdmx6-jaaaa-aaaaa-aaadq-cai",
-      "wasm": "https://github.com/dfinity/internet-identity/releases/download/release-2024-10-01/internet_identity_dev.wasm.gz"
-    },
     "evm_rpc": {
       "candid": "https://github.com/internet-computer-protocol/evm-rpc-canister/releases/latest/download/evm_rpc.did",
       "declarations": {

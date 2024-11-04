@@ -22,9 +22,11 @@ deploy-backend: build-backend
 	dfx deploy backend --argument "( \
 	  	record { \
 					owner = \"$$(dfx identity get-principal)\"; \
-					base_token = \"0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238\"; \
-					swap_token = \"0xfff9976782d46cc05630d1f6ebab18b2324d6b14\"; \
-	        fee = 3000; \
+					base_token_address = \"0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238\"; \
+					base_token_name = \"USDC\"; \
+					swap_token_address = \"0xfff9976782d46cc05630d1f6ebab18b2324d6b14\"; \
+					swap_token_name = \"WETH\"; \
+					fee = 3000; \
 					amount_in = 100000; \
 					slippage = 5; \
 					interval = 3600; \

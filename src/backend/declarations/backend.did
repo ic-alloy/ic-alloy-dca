@@ -1,22 +1,18 @@
-type CanisterSettingsDto = record {
+type CanisterSettingsInput = record {
   fee : nat64;
   interval : nat64;
   owner : text;
-  swap_token_name : text;
-  swap_token_address : text;
-  base_token_address : text;
+  swap_token : text;
+  base_token : text;
   amount_in : nat64;
-  base_token_name : text;
   slippage : nat64;
 };
 type LogItem = record { ok : opt text; err : opt text; event : LogItemEvent };
 type LogItemEvent = variant { Approve; Swap };
 type Result = variant { Ok : text; Err : text };
-type Result_1 = variant { Ok : CanisterSettingsDto; Err : text };
-service : (CanisterSettingsDto) -> {
-  get_canister_address : () -> (Result);
+service : (CanisterSettingsInput) -> {
+  get_address : () -> (Result);
   get_log : () -> (vec LogItem) query;
-  get_settings : () -> (Result_1) query;
   start : () -> (Result);
   stop : () -> (Result);
 }

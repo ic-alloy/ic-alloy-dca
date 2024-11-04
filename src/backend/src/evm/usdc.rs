@@ -14,7 +14,7 @@ pub async fn approve() -> Result<String, String> {
         .wallet(wallet)
         .on_icp(config);
 
-    let base_token = STATE.with_borrow(|state| state.base_token);
+    let base_token = STATE.with_borrow(|state| state.base_token_address);
 
     let usdc = IERC20::new(base_token, provider.clone());
 
