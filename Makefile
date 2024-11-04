@@ -29,7 +29,7 @@ deploy-backend: build-backend
 					fee = 3000; \
 					amount_in = 100000; \
 					slippage = 5; \
-					interval = 3600; \
+					interval = 10; \
 		} \
 	)"
 

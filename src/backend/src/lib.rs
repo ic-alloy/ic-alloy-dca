@@ -1,5 +1,4 @@
 mod auth;
-mod canisters;
 mod evm;
 mod log;
 mod service;
@@ -17,11 +16,22 @@ use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
 
 pub const V3_SWAP_ROUTER: Address = address!("3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E");
+pub const V3_FACTORY: Address = address!("0227628f3F023bb0B980b67D528571c95c6DaC1c");
 pub const MAX_ALLOWANCE: U256 = U256::MAX;
 
 sol!(
     #[sol(rpc)]
-    "sol/IV3SwapRouter.sol"
+    "sol/IUniswapV3SwapRouter.sol"
+);
+
+sol!(
+    #[sol(rpc)]
+    "sol/IUniswapV3Factory.sol"
+);
+
+sol!(
+    #[sol(rpc)]
+    "sol/IUniswapV3PoolState.sol"
 );
 
 sol!(
@@ -59,6 +69,7 @@ pub struct State {
     timer_id: Option<TimerId>,
     signer: Option<IcpSigner>,
     canister_eth_address: Option<Address>,
+    uniswap_v3_pool_address: Option<Address>,
 }
 
 thread_local! {

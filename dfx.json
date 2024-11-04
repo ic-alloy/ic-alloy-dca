@@ -1,20 +1,5 @@
 {
   "canisters": {
-    "xrc": {
-      "type": "custom",
-      "candid": "https://raw.githubusercontent.com/dfinity/exchange-rate-canister/refs/heads/main/src/xrc/xrc.did",
-      "declarations": {
-        "output": "src/xrc/declarations"
-      },
-      "remote": {
-        "id": {
-          "ic": "uf6dk-hyaaa-aaaaq-qaaaq-cai"
-        }
-      },
-      "frontend": {},
-      "specified_id": "uf6dk-hyaaa-aaaaq-qaaaq-cai",
-      "wasm": "https://github.com/dfinity/exchange-rate-canister/releases/download/2024.07.12/xrc.wasm.gz"
-    },
     "evm_rpc": {
       "candid": "https://github.com/internet-computer-protocol/evm-rpc-canister/releases/latest/download/evm_rpc.did",
       "declarations": {
