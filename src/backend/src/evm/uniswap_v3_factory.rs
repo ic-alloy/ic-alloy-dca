@@ -1,4 +1,4 @@
-use crate::{evm::utils::get_rpc_service, IUniswapV3Factory, V3_FACTORY};
+use crate::{evm::utils::get_rpc_service, IUniswapV3Factory, UNISWAP_V3_FACTORY};
 use alloy::{
     primitives::{aliases::U24, Address},
     providers::ProviderBuilder,
@@ -10,7 +10,7 @@ pub async fn get_pool(token_a: Address, token_b: Address, fee: U24) -> Result<Ad
     let config = IcpConfig::new(rpc_service);
     let provider = ProviderBuilder::new().on_icp(config);
 
-    let v3_factory = IUniswapV3Factory::new(V3_FACTORY, provider.clone());
+    let v3_factory = IUniswapV3Factory::new(UNISWAP_V3_FACTORY, provider.clone());
 
     match v3_factory.getPool(token_a, token_b, fee).call().await {
         Ok(res) => Ok(res.pool),

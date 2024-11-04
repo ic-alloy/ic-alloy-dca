@@ -1,6 +1,6 @@
 use crate::{
     evm::utils::{get_rpc_service, get_signer},
-    IERC20, MAX_ALLOWANCE, V3_SWAP_ROUTER,
+    IERC20, MAX_ALLOWANCE, UNISWAP_V3_SWAP_ROUTER,
 };
 use alloy::{
     network::EthereumWallet, primitives::Address, providers::ProviderBuilder,
@@ -20,7 +20,7 @@ pub async fn approve(token: Address) -> Result<String, String> {
     let usdc = IERC20::new(token, provider.clone());
 
     match usdc
-        .approve(V3_SWAP_ROUTER, MAX_ALLOWANCE)
+        .approve(UNISWAP_V3_SWAP_ROUTER, MAX_ALLOWANCE)
         .from(address)
         .send()
         .await

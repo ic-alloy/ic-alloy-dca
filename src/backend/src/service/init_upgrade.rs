@@ -11,26 +11,26 @@ use crate::{evm::utils::create_signer, CanisterSettingsDto, State, STATE};
 fn save_settings(settings: CanisterSettingsDto) {
     let CanisterSettingsDto {
         owner,
-        base_token_address,
-        base_token_name,
-        swap_token_address,
-        swap_token_name,
+        token_in_address,
+        token_in_name,
+        token_out_address,
+        token_out_name,
         fee,
         amount_in,
         slippage,
         interval,
     } = settings;
 
-    let base_token_address = Address::from_hex(base_token_address).unwrap();
-    let swap_token_address = Address::from_hex(swap_token_address).unwrap();
+    let token_in_address = Address::from_hex(token_in_address).unwrap();
+    let token_out_address = Address::from_hex(token_out_address).unwrap();
 
     STATE.with_borrow_mut(|state| {
         *state = State {
             owner,
-            base_token_address,
-            base_token_name,
-            swap_token_address,
-            swap_token_name,
+            token_in_address,
+            token_in_name,
+            token_out_address,
+            token_out_name,
             fee: U24::from(fee),
             amount_in: U256::from(amount_in),
             slippage: U256::from(slippage),
@@ -51,7 +51,7 @@ fn init_signer() {
                 state.canister_eth_address = Some(address);
             });
 
-            ic_cdk::println!("Starting DCA canister with address: {}", address);
+            ic_cdk::println!("Initialising signer for address: {}", address);
         });
     });
 }

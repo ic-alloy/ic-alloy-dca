@@ -1,16 +1,16 @@
 type CanisterSettingsDto = record {
   fee : nat64;
   interval : nat64;
+  token_in_address : text;
   owner : text;
-  swap_token_name : text;
-  swap_token_address : text;
-  base_token_address : text;
+  token_out_address : text;
   amount_in : nat64;
-  base_token_name : text;
+  token_in_name : text;
+  token_out_name : text;
   slippage : nat64;
 };
 type LogItem = record { ok : opt text; err : opt text; event : LogItemEvent };
-type LogItemEvent = variant { Approve; Swap; PoolAddress };
+type LogItemEvent = variant { Start; Approve; Stop; Swap; SavePoolAddress };
 type Result = variant { Ok : text; Err : text };
 type Result_1 = variant { Ok : CanisterSettingsDto; Err : text };
 service : (CanisterSettingsDto) -> {

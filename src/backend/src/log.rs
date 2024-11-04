@@ -8,7 +8,7 @@ pub enum LogItemEvent {
     Start,
     Stop,
     Approve,
-    PoolAddress,
+    SavePoolAddress,
     Swap,
 }
 
@@ -23,11 +23,11 @@ thread_local! {
     pub static LOG: RefCell<Vec<LogItem>> = const { RefCell::new(vec![]) };
 }
 
-pub fn log_success(event: LogItemEvent, ok: String) {
+pub fn log_success(event: LogItemEvent, ok: Option<String>) {
     LOG.with_borrow_mut(|log| {
         let item = LogItem {
             event,
-            ok: Some(ok),
+            ok,
             err: None,
         };
         ic_cdk::println!("{:?}", item);
@@ -35,12 +35,12 @@ pub fn log_success(event: LogItemEvent, ok: String) {
     });
 }
 
-pub fn log_error(event: LogItemEvent, err: String) {
+pub fn log_error(event: LogItemEvent, err: Option<String>) {
     LOG.with_borrow_mut(|log| {
         let item = LogItem {
             event,
             ok: None,
-            err: Some(err),
+            err,
         };
         ic_cdk::println!("{:?}", item);
         log.push(item);

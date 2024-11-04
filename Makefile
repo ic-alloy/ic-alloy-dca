@@ -13,6 +13,7 @@
 # dfx deploy frontend
 
 build-backend:
+	cargo build --target wasm32-unknown-unknown --release
 	cd ./target/wasm32-unknown-unknown/release && \
 	candid-extractor backend.wasm > ../../../src/backend/backend.did && \
 	ic-wasm backend.wasm -o backend.wasm metadata candid:service -f ../../../src/backend/backend.did -v public && \
@@ -22,14 +23,14 @@ deploy-backend: build-backend
 	dfx deploy backend --argument "( \
 	  	record { \
 					owner = \"$$(dfx identity get-principal)\"; \
-					base_token_address = \"0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238\"; \
-					base_token_name = \"USDC\"; \
-					swap_token_address = \"0xfff9976782d46cc05630d1f6ebab18b2324d6b14\"; \
-					swap_token_name = \"WETH\"; \
+					token_in_address = \"0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238\"; \
+					token_in_name = \"USDC\"; \
+					token_out_address = \"0xfff9976782d46cc05630d1f6ebab18b2324d6b14\"; \
+					token_out_name = \"WETH\"; \
 					fee = 3000; \
 					amount_in = 100000; \
 					slippage = 5; \
-					interval = 10; \
+					interval = 3600; \
 		} \
 	)"
 

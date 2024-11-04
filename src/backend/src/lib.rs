@@ -1,6 +1,7 @@
 mod auth;
 mod evm;
 mod log;
+mod run;
 mod service;
 
 use alloy::{
@@ -15,8 +16,9 @@ use log::LogItem;
 use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
 
-pub const V3_SWAP_ROUTER: Address = address!("3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E");
-pub const V3_FACTORY: Address = address!("0227628f3F023bb0B980b67D528571c95c6DaC1c");
+pub const UNISWAP_V3_SWAP_ROUTER: Address = address!("3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E");
+pub const UNISWAP_V3_FACTORY: Address = address!("0227628f3F023bb0B980b67D528571c95c6DaC1c");
+
 pub const MAX_ALLOWANCE: U256 = U256::MAX;
 
 sol!(
@@ -42,10 +44,10 @@ sol!(
 #[derive(Serialize, Deserialize, CandidType)]
 pub struct CanisterSettingsDto {
     pub owner: String,
-    pub base_token_address: String,
-    pub base_token_name: String,
-    pub swap_token_address: String,
-    pub swap_token_name: String,
+    pub token_in_address: String,
+    pub token_in_name: String,
+    pub token_out_address: String,
+    pub token_out_name: String,
     pub fee: u64,
     pub amount_in: u64,
     pub slippage: u64,
@@ -56,10 +58,10 @@ pub struct CanisterSettingsDto {
 pub struct State {
     // Settings
     owner: String,
-    base_token_address: Address,
-    base_token_name: String,
-    swap_token_address: Address,
-    swap_token_name: String,
+    token_in_address: Address,
+    token_in_name: String,
+    token_out_address: Address,
+    token_out_name: String,
     fee: U24,
     amount_in: U256,
     slippage: U256,
