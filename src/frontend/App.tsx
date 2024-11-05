@@ -1,47 +1,15 @@
-import Login from './components/login';
-import { useInternetIdentity } from 'ic-use-internet-identity';
-import Wallet from './components/wallet';
-import { Toaster } from './components/ui/toaster';
-
-function AppInner() {
-  const { identity } = useInternetIdentity();
-
-  if (!identity) {
-    return <Login />;
-  }
-
-  return <Wallet />;
-}
+import { EventLog } from './components/event-log';
+import { Settings } from './components/settings';
 
 export default function App() {
   return (
     <main>
-      <AppInner />
-      <Toaster />
-
-      <div className="links">
-        <a
-          href="https://github.com/ic-alloy/ic-alloy-basic-wallet/graphs/contributors"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <img src="https://img.shields.io/github/contributors/ic-alloy/ic-alloy-basic-wallet.svg?style=for-the-badge" />
-        </a>
-        <a
-          href="https://github.com/ic-alloy/ic-alloy-basic-wallet"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <img src="https://img.shields.io/github/license/ic-alloy/ic-alloy-basic-wallet.svg?style=for-the-badge" />
-        </a>
-        <a
-          href="https://github.com/ic-alloy/ic-alloy-basic-wallet/stargazers"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <img src="https://img.shields.io/github/stars/ic-alloy/ic-alloy-basic-wallet?style=for-the-badge" />
-        </a>
+      <div className='flex flex-col gap-5' >
+        <h3 className='text-muted-foreground'>DCA</h3>
+        <div className='text-muted-foreground'>A description about what this canister does.</div>
+        <Settings />
+        <EventLog />
       </div>
-    </main>
+    </main >
   );
 }
