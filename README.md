@@ -12,10 +12,12 @@ blockchain. The frontend is built with React and Vite.
 [![Forks][forks-shield]][forks-url] [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url] [![MIT License][license-shield]](LICENSE)
 
-> [!TIP] Use this repository as a starting point for building your own timer
+> [!TIP]
+> Use this repository as a starting point for building your own timer
 > based Ethereum agents on the Internet Computer.
 
-> [!IMPORTANT] This repository is a work in progress. Expect breaking changes, bugs and incomplete features. More documentation will also be added. 
+> [!IMPORTANT]
+> This repository is a work in progress. Expect breaking changes, bugs and incomplete features. More documentation will also be added. 
 
 ![](./media/screenshot.png)
 
