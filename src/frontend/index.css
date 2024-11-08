@@ -29,8 +29,6 @@
     --input: 240 3.7% 15.9%;
     --ring: 142.4 71.8% 29.2%;
     --radius: 0.5rem;
-
-
   }
 }
 
@@ -39,7 +37,7 @@
 }
 
 main {
-  @apply bg-background h-screen pt-20 flex flex-col items-center justify-center;
+  @apply bg-background h-screen flex flex-col items-center justify-center;
 }
 
 section {

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { backend } from "../../backend/declarations";
 
-export default function useEthAddress() {
+export default function useSettings() {
   return useQuery({
     queryKey: ['settings'],
     queryFn: async () => {
