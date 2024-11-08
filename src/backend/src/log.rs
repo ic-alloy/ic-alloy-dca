@@ -10,10 +10,12 @@ pub enum LogItemEvent {
     Approve,
     SavePoolAddress,
     Swap,
+    Transfer,
 }
 
 #[derive(Serialize, Clone, CandidType, Debug)]
 pub struct LogItem {
+    pub timestamp: u64,
     pub event: LogItemEvent,
     pub ok: Option<String>,
     pub err: Option<String>,
@@ -26,6 +28,7 @@ thread_local! {
 pub fn log_success(event: LogItemEvent, ok: Option<String>) {
     LOG.with_borrow_mut(|log| {
         let item = LogItem {
+            timestamp: ic_cdk::api::time(),
             event,
             ok,
             err: None,
@@ -38,6 +41,7 @@ pub fn log_success(event: LogItemEvent, ok: Option<String>) {
 pub fn log_error(event: LogItemEvent, err: Option<String>) {
     LOG.with_borrow_mut(|log| {
         let item = LogItem {
+            timestamp: ic_cdk::api::time(),
             event,
             ok: None,
             err,
