@@ -12,12 +12,11 @@ blockchain. The frontend is built with React and Vite.
 [![Forks][forks-shield]][forks-url] [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url] [![MIT License][license-shield]](LICENSE)
 
-> [!TIP]
-> Use this repository as a starting point for building your own timer
-> based Ethereum agents on the Internet Computer.
+> [!TIP] 
+> Use this repository as a starting point for building your own timer based Ethereum agents on the Internet Computer.
 
-> [!IMPORTANT]
-> This repository is a work in progress. Expect breaking changes, bugs and incomplete features. More documentation will also be added. 
+> [!IMPORTANT] 
+> This repository is a work in progress. Expect breaking changes, bugs and incomplete features. More documentation will also be added.
 
 ![](./media/screenshot.png)
 
@@ -64,32 +63,26 @@ dfx start --background
 ### 2. Deploy the evm-rpc canister
 
 ```
-dfx deploy evm-rpc
+dfx deploy evm_rpc
 ```
 
 ### 3. Deploy the DCA canister
 
-The backend canister is deployed using a script. Edit the deploy script to change the
-default values.
+The backend canister is deployed using a script. Edit the deploy script to
+change the default values.
 
 Default values:
-```bash
-dfx deploy backend --argument "(
-  record {
-    owner = \"$(dfx identity get-principal)\";
-    token_in_address = \"0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238\";
-    token_in_name = \"USDC\";
-    token_out_address = \"0xfff9976782d46cc05630d1f6ebab18b2324d6b14\";
-    token_out_name = \"WETH\";
-    fee = 3000;
-    amount_in = 100000;
-    slippage = 5;
-    interval = 3600;
-  }
-)" $network
-```
 
-Deploy:
+- owner: "$(dfx identity get-principal)"
+- token_in_address: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238"
+- token_in_name: "USDC"
+- token_out_address: "0xfff9976782d46cc05630d1f6ebab18b2324d6b14"
+- token_out_name: "WETH"
+- fee: 3000
+- amount_in: 100000
+- slippage: 5
+- interval: 3600
+
 ```
 bash scripts/deploy-backend.sh
 ```
@@ -99,6 +92,35 @@ bash scripts/deploy-backend.sh
 ```
 pnpm install
 dfx deploy frontend
+```
+
+## Usage
+
+### Transfer tokens to the agent
+
+Before you start the agent, you need to transfer some tokens to the agent canister, both the "in" token and
+some of the base chain token to pay for the gas fees. The agent Ethereum address is displayed in the frontend.
+
+### Start the agent
+
+```bash
+bash scripts/start.sh
+```
+
+### Stop the agent
+
+```bash
+bash scripts/stop.sh
+```
+### Check the agent status
+
+Access the agent status by visiting the frontend canister URL.
+
+### Transfer tokens from the agent
+
+```bash
+bash scripts/trasfer-in-token.sh
+bash scripts/trasfer-out-token.sh
 ```
 
 ## Develop
@@ -113,8 +135,8 @@ pnpm run dev
 
 <!-- readme: collaborators,contributors -start -->
 <table>
-	<tbody>
-		<tr>
+ <tbody>
+  <tr>
             <td align="center">
                 <a href="https://github.com/kristoferlund">
                     <img src="https://avatars.githubusercontent.com/u/9698363?v=4" width="100;" alt="kristoferlund"/>
@@ -122,8 +144,8 @@ pnpm run dev
                     <sub><b>Kristofer</b></sub>
                 </a>
             </td>
-		</tr>
-	<tbody>
+  </tr>
+ <tbody>
 </table>
 <!-- readme: collaborators,contributors -end -->
 
@@ -137,11 +159,9 @@ details.
 Contributions are welcome! Please open an issue or submit a pull request if you
 have any suggestions or improvements.
 
-
 [contributors-shield]:
   https://img.shields.io/github/contributors/ic-alloy/ic-alloy-dca.svg?style=for-the-badge
-[contributors-url]:
-  https://github.com/ic-alloy/ic-alloy-dca/graphs/contributors
+[contributors-url]: https://github.com/ic-alloy/ic-alloy-dca/graphs/contributors
 [forks-shield]:
   https://img.shields.io/github/forks/ic-alloy/ic-alloy-dca.svg?style=for-the-badge
 [forks-url]: https://github.com/ic-alloy/ic-alloy-dca/network/members
@@ -153,6 +173,3 @@ have any suggestions or improvements.
 [issues-url]: https://github.com/ic-alloy/ic-alloy-dca/issues
 [license-shield]:
   https://img.shields.io/github/license/ic-alloy/ic-alloy-dca.svg?style=for-the-badge
-[license-url]:
-  https://github.com/ic-alloy/ic-alloy-dca/blob/master/LICENSE.txt
-
