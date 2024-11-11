@@ -20,6 +20,11 @@ pub fn run() {
                 )
             });
 
+        // Calculate the minimum amount of tokens acceptable to receive based on the
+        // slippage setting.
+        //
+        // Example: if estimate_amount_out is 100 and slippage, amount_out_minimum is
+        // 100 * (100 - 5) / 100 = 95
         let amount_out_minimum =
             match get_estimate_amount_out(pool_address.unwrap(), amount_in).await {
                 Ok(amount) => amount * (U256::from(100) - slippage) / U256::from(100),
