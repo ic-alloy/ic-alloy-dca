@@ -33,6 +33,7 @@ service : (CanisterSettingsDto) -> {
   get_settings : () -> (Result_1) query;
   start : () -> (Result);
   stop : () -> (Result);
+  transfer_base_token : (text, nat64) -> (Result);
   transfer_in_token : (text, nat64) -> (Result);
   transfer_out_token : (text, nat64) -> (Result);
 }
