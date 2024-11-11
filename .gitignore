@@ -28,3 +28,4 @@ dist-ssr
 *.tsbuildinfo
 canister_ids.json
 target
+.pnpm-store
