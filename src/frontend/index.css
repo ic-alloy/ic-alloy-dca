@@ -37,7 +37,7 @@
 }
 
 main {
-  @apply bg-background h-screen flex flex-col items-center justify-center;
+  @apply bg-background min-h-screen flex flex-col items-center justify-center py-20;
 }
 
 section {
