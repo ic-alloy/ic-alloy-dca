@@ -12,4 +12,4 @@ read -p "Amount? " amount
 echo -e "\nTransferring $amount to $recipient...\n"
 
 # Call the canister with the specified recipient and amount
-dfx canister call backend transfer_out_token "(\"$recipient\", $amount)" $network
+dfx canister call agent transfer_out_token "(\"$recipient\", $amount)" $network

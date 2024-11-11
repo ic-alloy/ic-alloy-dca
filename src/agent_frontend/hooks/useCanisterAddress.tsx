@@ -1,15 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
-import { backend } from "../../backend/declarations";
+import { useQuery } from '@tanstack/react-query';
+import { agent } from '../../agent/declarations';
 
 export default function useCanisterAddress() {
   return useQuery({
     queryKey: ['get_canister_address'],
     queryFn: async () => {
       try {
-        const result = await backend.get_canister_address();
+        const result = await agent.get_canister_address();
 
         if (result === undefined) {
-          throw new Error("Undefined canister address returned.");
+          throw new Error('Undefined canister address returned.');
         }
 
         if ('Err' in result) {
@@ -19,9 +19,9 @@ export default function useCanisterAddress() {
         return result.Ok;
       } catch (e) {
         console.error(e);
-        throw new Error("Invalid canister address returned.");
+        throw new Error('Invalid canister address returned.');
       }
     },
-    enabled: !!backend
+    enabled: !!agent,
   });
 }

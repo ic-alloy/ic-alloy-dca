@@ -16,17 +16,17 @@
       "type": "custom",
       "wasm": "https://github.com/internet-computer-protocol/evm-rpc-canister/releases/latest/download/evm_rpc.wasm.gz"
     },
-    "backend": {
-      "candid": "src/backend/backend.did",
+    "agent": {
+      "candid": "src/agent/agent.did",
       "declarations": {
-        "output": "src/backend/declarations"
+        "output": "src/agent/declarations"
       },
-      "package": "backend",
+      "package": "agent",
       "type": "rust"
     },
-    "frontend": {
+    "agent_frontend": {
       "declarations": {
-        "output": "src/frontend/declarations"
+        "output": "src/agent_frontend/declarations"
       },
       "source": [
         "dist"

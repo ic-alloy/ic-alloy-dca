@@ -1,15 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
-import { backend } from "../../backend/declarations";
+import { useQuery } from '@tanstack/react-query';
+import { agent } from '../../agent/declarations';
 
 export function useTokenInBalance() {
   return useQuery({
     queryKey: ['get_balance_in'],
     queryFn: async () => {
       try {
-        const result = await backend.get_balance_in();
+        const result = await agent.get_balance_in();
 
         if (result === undefined) {
-          throw new Error("Undefined balance returned.");
+          throw new Error('Undefined balance returned.');
         }
 
         if ('Err' in result) {
@@ -19,11 +19,11 @@ export function useTokenInBalance() {
         return result.Ok;
       } catch (e) {
         console.error(e);
-        throw new Error("Invalid balance returned.");
+        throw new Error('Invalid balance returned.');
       }
     },
-    enabled: !!backend
-  })
+    enabled: !!agent,
+  });
 }
 
 export function useTokenOutBalance() {
@@ -31,10 +31,10 @@ export function useTokenOutBalance() {
     queryKey: ['get_balance_out'],
     queryFn: async () => {
       try {
-        const result = await backend.get_balance_out();
+        const result = await agent.get_balance_out();
 
         if (result === undefined) {
-          throw new Error("Undefined balance returned.");
+          throw new Error('Undefined balance returned.');
         }
 
         if ('Err' in result) {
@@ -44,9 +44,9 @@ export function useTokenOutBalance() {
         return result.Ok;
       } catch (e) {
         console.error(e);
-        throw new Error("Invalid balance returned.");
+        throw new Error('Invalid balance returned.');
       }
     },
-    enabled: !!backend
-  })
+    enabled: !!agent,
+  });
 }

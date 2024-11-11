@@ -16,19 +16,19 @@ cargo build --target wasm32-unknown-unknown --release
 cd ../target/wasm32-unknown-unknown/release
 
 # Extract candid interface from the wasm file
-candid-extractor backend.wasm >../../../src/backend/backend.did
+candid-extractor agent.wasm >../../../src/agent/agent.did
 
 # Add candid metadata to the wasm file and set visibility to public
-ic-wasm backend.wasm -o backend.wasm metadata candid:service -f ../../../src/backend/backend.did -v public
+ic-wasm agent.wasm -o agent.wasm metadata candid:service -f ../../../src/agent/agent.did -v public
 
 # Compress the wasm file
-gzip -c backend.wasm >backend.wasm.gz
+gzip -c agent.wasm >agent.wasm.gz
 
 # Back to root folder
 cd ../../../
 
 # Deploy with DFX
-dfx deploy backend --argument "(
+dfx deploy agent --argument "(
   record {
     owner = \"$(dfx identity get-principal)\";
     token_in_address = \"0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238\";

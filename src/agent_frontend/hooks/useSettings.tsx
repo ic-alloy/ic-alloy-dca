@@ -1,15 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
-import { backend } from "../../backend/declarations";
+import { useQuery } from '@tanstack/react-query';
+import { agent } from '../../agent/declarations';
 
 export default function useSettings() {
   return useQuery({
     queryKey: ['settings'],
     queryFn: async () => {
       try {
-        const result = await backend.get_settings();
+        const result = await agent.get_settings();
 
         if (result === undefined) {
-          throw new Error("Undefined settings returned.");
+          throw new Error('Undefined settings returned.');
         }
 
         if ('Err' in result) {
@@ -19,9 +19,9 @@ export default function useSettings() {
         return result.Ok;
       } catch (e) {
         console.error(e);
-        throw new Error("Invalid settings returned.");
+        throw new Error('Invalid settings returned.');
       }
     },
-    enabled: !!backend
+    enabled: !!agent,
   });
 }
