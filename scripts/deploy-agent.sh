@@ -9,24 +9,6 @@ read -p "Network? (blank for localhost or '--ic' for mainnet) " network
 # Change to the script's directory
 cd "$(dirname "$0")"
 
-# Build the Wasm target
-cargo build --target wasm32-unknown-unknown --release
-
-# Navigate to the build output directory
-cd ../target/wasm32-unknown-unknown/release
-
-# Extract candid interface from the wasm file
-candid-extractor agent.wasm >../../../src/agent/agent.did
-
-# Add candid metadata to the wasm file and set visibility to public
-ic-wasm agent.wasm -o agent.wasm metadata candid:service -f ../../../src/agent/agent.did -v public
-
-# Compress the wasm file
-gzip -c agent.wasm >agent.wasm.gz
-
-# Back to root folder
-cd ../../../
-
 # Deploy with DFX
 dfx deploy agent --argument "(
   record {
